@@ -1,0 +1,76 @@
+#include <iostream>
+
+using namespace std;
+
+/*summary
+* 
+* In main function , what does return mean?
+* 
+* How to create variable in C++?
+* For varialbes like "int i" and "int j" both are treated as object in C++
+* 
+* What is the storage sapce used by char, int, double and short?(May be differences between computers)
+* 
+* intitilize pointer
+* How to create a pointer?
+* How to allocate a pointer to a variable?
+* 
+* What does cout and cin mean? What is the function of endl?
+* 
+* 1 Dimension Array
+* How to create a 1-D Array?
+* if A is a 1-D array, what does *A mean? 
+* As the address of elements in the same array is logically allocated,-
+* how to print an array by address?(cout << *A << *(A+1) <<...
+* Is there upper bound for array in C++?
+* 
+* 
+*/
+int main() {
+
+	int i;
+	i = 100;
+	int j{ 1000 };
+	//int j = 1000;
+	//int j(1000);
+
+	int* p1;//p1 is an pointer to an object.
+	p1 = &i;//asign address of i to p1;
+	//pointer is a varaible type whose value is address;
+
+	cout << i << " " << *p1 << endl;
+	//* operator return the value of the object whose address is stored in p1.
+
+	i = 200;
+	*p1 = 400; // i becomes 400
+
+	//When a pointer carries the address of an object, we say this pointer is pointing to this object.
+
+
+	//cin >> i;
+	//cout <<i << endl;
+
+	//int j;//the value of j is undefined and cannot be used without assigning value to it
+	//j = 10;
+	//cout << j << endl;
+	//cout << p1 << endl;
+
+
+	int A[5]{ 10,20,30,40,50 };//A[0]...A[4]
+	cout << *A << endl; // will print 10
+	//for 1-D array name without subscript is the address of first element of array
+	//A the same as &A[0]
+	
+	cout << A << " " << A + 1 << endl; // address arithmetic is logical
+
+	//A[3] will be converted to *(A+3)
+
+	cout << 3[A] << " " << A[3] << endl;
+	cout << A[10] << endl;
+
+	cout << sizeof(int) << " " << sizeof(double) << " " << sizeof(char) << " " << sizeof(short) << endl;
+
+	cout << A << " " << *A << endl;
+
+	return 0;
+}
