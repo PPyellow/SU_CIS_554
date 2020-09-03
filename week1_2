@@ -1,0 +1,145 @@
+//new, delete, class, linked_list, call by value vs call by reference
+//pass by value vs pass by reference
+
+/*
+* Summary
+* 
+* What's the difference between pass by value and pass by reference?
+* 
+* Class
+* How to create class in C++?
+* What does data member mean?
+* How to define constructor in class?
+* Can one class have several constructor?
+* 
+* 2-Dimenson Array
+* How to create a 2-D array?
+* What's the address structure of a 2-D array?
+* 
+* Dynamic memory management
+* How to create a dyamic object?
+* What's the function of new and delete?
+* Can we delete a static object?
+* If A is an array, what's the difference between delete A and delete [] A?
+* When calling the delete function, we delete the pointer or the object pointed by the pointer?
+* 
+* What does -> mean in C++?
+* 
+* Function
+* How to create a function in C++?
+* How to call a function?
+*/
+#include <iostream>
+using namespace std;
+
+void f1(int i) {
+	i++;
+}//call by value pass by value
+//a new copy of argument is created and used under the name i inside the function
+//Modifying the value of i does not affect the original copy outside the function 
+
+void f2(int& i) {
+	i++;
+}//call by reference or pass by reference
+//the original copy outside the function is being called actually used inside the function
+//Modifying it inside the function will actually modify the original copy outside the function
+
+
+class ThreeD {
+public:
+	int ht;
+	int wid;
+	int dep;
+};
+
+class ThreeD2 {
+public:
+	int ht;//data member
+	int wid;
+	int dep;
+	//constructor for user defined initialization
+	ThreeD2(int i, int j, int k) { ht = 10 * i;  wid = 2 * j; dep =  k; }
+	//alternatively, we can write it as 
+	//ThreeD2(int i, int j, int k):ht(10*i),wid(2*j),dep(k){}
+};
+
+class Node {
+public:
+	int value;
+	Node* next;
+	Node(int i) { value = i; next = nullptr; }
+	Node() { next = nullptr; }
+};
+int main() {
+
+	int A[3][5]{ {1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15} };
+
+	cout << A[1][3] << " " << *(A[1]+3) << " " << *(*(A+1)+3)<< " " 
+		<< *(&A[0][0] + 5 * 1 + 3) << " "<< &A[1] << " "<< *A[1] << " "<< A[1]<< endl;
+
+	int B[2]{ 1,2 };
+	cout << &B[1] << " " << B[1] << " " << B << endl;
+
+	//dynamic memory management(allocation and deallocation)
+	int* p1 = new int{ 10 };//int* p; int *p; int * p all the same
+	//new is a function that asks system to allocate a storage space and the address of the storage space
+
+	delete p1; //delete the object pointed by p1
+
+	int k = { 100 };//k is statically created , and can't be deleted
+	p1 = &k;
+	//delete p1; //the object pointed by p1 is a static object, and can't be deleted
+
+
+	int* p2 = new int[5]{ 2,3,4,5,6 };
+	cout << *p2 << " "<< *(p2+1)<<" "<<p2[2]<<endl;//will print 2,3,4
+	//p2[2] will be converted by compiler as *(p2+2)
+
+	delete [] p2;
+	// delete p2; will delete the first element of array; will lead to unpredictable problem
+	//for dynamic arrays, either delete the whole array or nothing
+
+
+
+	char c1{ 't' };
+
+
+	ThreeD t1{ 3,4,5 };//using the aggregare initialization
+
+	ThreeD2 t2{ 5,6,7 };
+
+	cout << t2.ht << endl;
+
+	/*
+	ThreeD2* p5{ &t2 };
+	(*p5).ht = 10; //the same as t2.ht =20
+	p5->ht = 20; //the same as (*p5).ht =25
+	*/
+
+
+	Node* head{ nullptr };//Node * head = nullptr; Node * head (nullptr);
+
+	for (int i = 0; i < 5; i++) {
+		Node* p1 = new Node(10 * i);
+		p1->next = head;
+		head = p1;
+
+	}
+
+	cout << endl;
+	Node* p3 = head;
+	while (p3) {
+		cout << p3->value << " " ;
+		p3 = p3->next;
+	}
+	
+	int x = 1;
+	f1(x);
+	cout << endl;
+	cout << x << endl; //will print 1
+
+	f2(x);
+	cout << x << endl; //will print 2
+
+	return 0;
+}
