@@ -1,0 +1,156 @@
+//begin() and front() difference
+//end() and back() difference
+//does end() return the last element?
+//does auto type need a initial value?
+//can array be created with out define initial value? Then, what about vector?
+//how to add an element to the front and back of a list>
+//can list use subscript to call elements at a specified place? 
+//Is sort() a unique function which belongs to list?
+//What's the difference between erase() and remove()?
+//How to get the first element of an map?
+//Will elements in a map be auto sorted by key?
+//What's the difference between Map[] = value; and Map.insert(key, value) 
+
+
+
+
+
+//STL (standard template library): vector, list, mao, stack, queue
+#include <iostream>
+#include <vector>
+#include <list>
+#include <map>
+#include <stack>
+#include <queue>
+#include <string> //"..."
+
+using namespace std;
+
+int main() {
+
+	vector<int> V1{ 11,12,13,14,15 };//V1 has 5 elements
+
+	cout << V1[2] << " " << V1.size() << " " << V1.front() << " " << V1.back() << endl;
+
+	//cout << V1[10] <<endll Error! vector will check for out-of-bound error
+
+	V1.push_back(24); //add new element 24 to the end of vector
+	V1.pop_back(); //remove the last element
+
+	//Remember that array size cannot be changed
+
+	//Iterator -- the special pointers required to point to elements of STL containers
+
+	int* p1;
+
+	vector<int>::iterator it1{ V1.begin() }; //begin() return the address of the first elemnent
+	cout  << " " << *it1 << endl;
+
+	cout << *it1 << " " << *(it1 + 3) << " " << *(++it1) << " " << *(V1.end() - 2) << endl;
+	//avoid use ++ -- in print function
+
+
+	auto it2{ V1.end() };//end return the address after the last the element
+	//cout<<*it2<<endl; error. it2 points to the position after the last element
+
+
+	auto i{ 56 };
+
+	for (auto it3 = V1.begin(); it3 != V1.end(); it3++) {
+		cout << *it3 << " ";
+	}
+	cout << endl;
+
+	for (int i : V1) { cout << i << " "; i++; } //call by value
+	
+	cout << endl;
+
+	for (int i : V1) { cout << i << " "; }
+	cout << endl;
+	for (int& i : V1) { cout << i << " "; i++; }//call by reference
+	cout << endl;
+	for (int i : V1) { cout << i << " "; }//i是局部变量，为什么会受前一个for循环影响?如果受影响，为什么i不是从最后一位开始的？
+	cout << endl;
+
+	vector<int> ::iterator it3 = find(V1.begin(), V1.end(), 14);
+	//find will return the address of the first matched element in the specified range;
+	//will return end() if no match found.
+
+	if(it3 != V1.end()) V1.erase(it3);
+
+
+	vector<int> V2(10, 3);//size 10 all of them with value 3
+	vector<int> V3(8); //size 8 and all of them with value 0
+	//vector<int*> V3(5); vector size 5, all value with nullptr
+
+	//STL containers will all assing initial default values if not specified
+
+	//List
+	list<int> L1 = { 11,22,33,44,55 };
+	list<int> L2(10, 3);
+	list<int> L3(5);//all 5 elements with value 0
+
+	
+	cout << L1.size() << " " << L1.front() << " " << L1.back()<<endl;
+	//cout<<L1[2]<<endl; Error list does not support subscript like vector
+
+
+	list<int>::iterator it11{ L1.begin() }, it12{ L1.end() };
+	//auto it11{L1.begin()}, it12{L1.end()};
+
+	cout << *it11 << " " << *(it11++) << " " <<  *(--it12)<<endl;
+
+	//cout << *(it11+1) << endl; Error!
+	//list iterator only allows ++ and --
+
+	L1.push_back(100);
+	L1.pop_back();
+	L1.push_front(1000);
+	L1.pop_front();
+
+	auto it13 = find(L1.begin(), L1.end(), 33);
+	if (it13 != L1.end()) L1.erase(it13);
+
+	for (auto i : L1) { cout << i << " "; };
+	//the iterator based loop will also work
+	cout << endl;
+
+	L1.remove(44);//remove the first node with value 44 if found;otherwise, do nothing
+
+	L1.front() = 5555;
+	*(++L1.begin()) = 2000;
+
+
+	list<int> L30{ 5,11,3,21,1 };
+	L30.sort();
+	for (auto i : L30) { cout << i << " "; }
+	cout << endl;
+	//map
+	//The two objects of each map element is called key and value
+	//
+
+	map<int, string> M1{ {10,"Dave"},{8,"John"},{25,"Sanjay"},{6,"Chen"} };
+
+	cout << M1[8] << endl;//will print John
+
+	for (pair<int, string> i : M1) { cout<<i.first << " " << i.second << " "; };
+	cout << endl;
+	//all map elements will automatically be sorted based on keys
+
+	//adding new elements to map
+	M1[55] = "Nancy";//add {55, "Nancy"}to M1
+	M1.insert({ 31, "Bob" });
+	for (pair<int, string> i : M1) { cout << i.first << " " << i.second << " "; };
+	cout << endl;
+
+	M1[55] = "Mary"; //will override{55, "Nancy"}
+	M1.insert({ 31, "Ben" });//will be ignored;
+
+	for (auto it20 = M1.begin(); it20 != M1.end(); ++it20) {
+		cout << it20->first<<" "<<it20->second<<  " ";
+
+	}
+	cout <<endl;
+
+	return 0;
+}
